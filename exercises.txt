@@ -1,0 +1,26 @@
+Linux File Management Exercises
+================================
+
+1. Copy notes.txt from practice/source to practice/destination.
+2. Copy the entire practice/source folder to practice/destination/source-copy.
+3. Rename practice/old_folder to practice/renamed_folder.
+4. Move config.txt to practice/destination.
+5. Remove delete-me.txt from practice/archive.
+6. Remove the practice/archive/delete-folder directory and its contents.
+7. Remove the empty-folder directory using rmdir.
+
+Useful options:
+  cp     Copy files
+  cp -r  Copy directories recursively
+  mv     Move or rename files and directories
+  rm     Remove files
+  rm -r  Remove directories recursively
+  rm -i  Ask before removing
+  rmdir  Remove an empty directory
+
+Recommended workflow:
+  ls
+  ls practice
+  cp ...
+  mv ...
+  rm ...

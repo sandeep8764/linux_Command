@@ -1,0 +1,1 @@
+This file can be removed by deleting delete-folder recursively.

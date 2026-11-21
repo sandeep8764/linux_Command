@@ -1,0 +1,4 @@
+Hello Linux!
+I am learning the cat command.
+This is my first file.
+q

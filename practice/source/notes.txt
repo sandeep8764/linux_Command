@@ -1,0 +1,3 @@
+Linux file management practice
+
+A text file that can be copied or moved.
