@@ -1,0 +1,521 @@
+
+# ==========================================================
+# LINUX SORT COMMAND - COMPLETE NOTES
+# ==========================================================
+
+# 1. INTRODUCTION
+
+# The sort command arranges lines of text in a particular order.
+# By default, it sorts lines alphabetically (lexicographically).
+# It displays the sorted result on the terminal.
+# It does not modify the original file unless output is redirected
+# back into the file.
+
+# USES:
+# 1. Sort text alphabetically.
+# 2. Sort numbers.
+# 3. Sort in reverse order.
+# 4. Sort data based on a specific column.
+# 5. Remove duplicate lines while sorting.
+# 6. Sort months.
+# 7. Sort command output.
+
+# 2. BASIC SYNTAX
+
+sort [options] [filename]
+
+# Example:
+sort names.txt
+
+# This displays the contents of names.txt in sorted order.
+
+# 3. DEFAULT SORTING (ALPHABETICAL ORDER)
+
+# Create a sample file:
+cat > names.txt
+
+# Enter:
+# Sandeep
+# Rahul
+# Aman
+# Priya
+# Mohit
+
+# Press Ctrl + D to finish.
+
+# Sort alphabetically:
+sort names.txt
+
+# Output:
+# Aman
+# Mohit
+# Priya
+# Rahul
+# Sandeep
+
+# IMPORTANT:
+# By default, sort uses lexicographical ordering.
+# It is not the same as sorting numbers numerically.
+
+# 4. SORT IN REVERSE ORDER
+
+# -r = Reverse the sorting order.
+
+sort -r names.txt
+
+# Output:
+# Sandeep
+# Rahul
+# Priya
+# Mohit
+# Aman
+
+# 5. NUMERICAL SORTING
+
+# -n = Sort numbers numerically.
+
+# Create a number file:
+cat > numbers.txt
+
+# Enter:
+# 100
+# 20
+# 5
+# 300
+# 10
+
+# Press Ctrl + D.
+
+# Default sorting:
+sort numbers.txt
+
+# This performs lexicographical sorting, not numeric sorting.
+
+# Numeric sorting:
+sort -n numbers.txt
+
+# Output:
+# 5
+# 10
+# 20
+# 100
+# 300
+
+# Reverse numerical sorting:
+sort -nr numbers.txt
+
+# Output:
+# 300
+# 100
+# 20
+# 10
+# 5
+
+# IMPORTANT:
+# -n = Numerical sorting.
+# -r = Reverse sorting.
+# -nr = Reverse numerical sorting.
+
+# 6. REMOVE DUPLICATE LINES
+
+# -u = Display only unique lines.
+
+# Create a file:
+cat > fruits.txt
+
+# Enter:
+# Apple
+# Mango
+# Apple
+# Banana
+# Mango
+# Orange
+
+# Press Ctrl + D.
+
+# Sort and remove duplicates:
+sort -u fruits.txt
+
+# Output:
+# Apple
+# Banana
+# Mango
+# Orange
+
+# IMPORTANT:
+# sort -u sorts the lines and removes duplicate lines.
+
+# 7. SORT AND SAVE OUTPUT TO ANOTHER FILE
+
+# Sort names and save the result:
+sort names.txt > sorted_names.txt
+
+# Display the sorted file:
+cat sorted_names.txt
+
+# Sort numbers and save:
+sort -n numbers.txt > sorted_numbers.txt
+
+# IMPORTANT:
+# > redirects output into a file.
+# It overwrites the destination file if it already exists.
+
+# 8. SORT A FILE AND REPLACE ITS ORIGINAL CONTENT
+
+# Create a sorted temporary file first:
+sort names.txt > temp.txt
+
+# Replace original file with sorted output:
+mv temp.txt names.txt
+
+# Alternative using sponge (if installed):
+# sort names.txt | sponge names.txt
+
+# IMPORTANT:
+# Avoid this command:
+# sort names.txt > names.txt
+# It truncates the original file before sort reads it.
+
+# 9. SORT BY A SPECIFIC COLUMN
+
+# -k = Specify the field or column to sort by.
+# -t = Specify the field separator.
+
+# Create a student file:
+cat > students.txt
+
+# Enter:
+# 103 Sandeep 85
+# 101 Rahul 92
+# 104 Priya 78
+# 102 Aman 95
+
+# Press Ctrl + D.
+
+# Sort by first column:
+sort -k1,1n students.txt
+
+# Explanation:
+# -k1,1 = Sort using the first field only.
+# n = Sort that field numerically.
+
+# Sort by second column alphabetically:
+sort -k2,2 students.txt
+
+# Sort by third column numerically:
+sort -k3,3n students.txt
+
+# Sort by third column in descending numerical order:
+sort -k3,3nr students.txt
+
+# 10. SORT USING A CUSTOM DELIMITER
+
+# -t = Specify the delimiter between fields.
+
+# Create a CSV file:
+cat > students.csv
+
+# Enter:
+# Sandeep,85,Delhi
+# Rahul,92,Mumbai
+# Priya,78,Chennai
+# Aman,95,Delhi
+
+# Press Ctrl + D.
+
+# Sort by the first column:
+sort -t ',' -k1,1 students.csv
+
+# Sort by marks (second column) numerically:
+sort -t ',' -k2,2n students.csv
+
+# Sort by marks in descending order:
+sort -t ',' -k2,2nr students.csv
+
+# Sort by city (third column):
+sort -t ',' -k3,3 students.csv
+
+# IMPORTANT:
+# -t ',' defines comma as the separator.
+# -k2,2n sorts only the second field numerically.
+
+# 11. SORT MONTHS
+
+# -M = Sort month names according to calendar order.
+
+# Create a month file:
+cat > months.txt
+
+# Enter:
+# December
+# January
+# March
+# August
+# February
+
+# Press Ctrl + D.
+
+# Sort by month:
+sort -M months.txt
+
+# Output:
+# January
+# February
+# March
+# August
+# December
+
+# 12. IGNORE CASE WHILE SORTING
+
+# -f = Fold lowercase and uppercase together for sorting.
+
+sort -f names.txt
+
+# Example:
+# apple
+# Banana
+# cherry
+# APPLE
+
+# Sort without distinguishing letter case:
+sort -f fruits.txt
+
+# 13. CHECK WHETHER A FILE IS ALREADY SORTED
+
+# -c = Check whether the file is sorted.
+# It does not display the sorted content.
+
+sort -c names.txt
+
+# If the file is sorted, no output is normally displayed.
+# If it is not sorted, sort reports the first disorder.
+
+# 14. CHECK SORTING AND UNIQUE VALUES
+
+# -u = Unique lines.
+# -c = Check sorting order.
+
+# Check whether a file is sorted and has no duplicate adjacent lines:
+sort -cu numbers.txt
+
+# 15. SORT BY FILE SIZE OR OTHER COMMAND OUTPUT
+
+# Sort files by size:
+ls -l | sort -k5,5n
+
+# Sort files by size in descending order:
+ls -l | sort -k5,5nr
+
+# NOTE:
+# The exact field positions depend on the ls output format.
+# For accurate file-size sorting, GNU/Linux also provides:
+# ls -lS
+
+# 16. IMPORTANT SORT OPTIONS
+
+# -r = Reverse order.
+# -n = Numeric sorting.
+# -u = Remove duplicate lines.
+# -k = Sort by a specific field.
+# -t = Set field separator.
+# -M = Sort by month.
+# -f = Ignore case differences.
+# -c = Check whether input is sorted.
+# -o = Write output to a specified file.
+# -h = Human-readable numeric sorting (e.g. 2K, 10M).
+# -b = Ignore leading blanks when sorting.
+# -R = Randomize/hash-sort lines (GNU sort).
+
+# Examples:
+sort -r names.txt
+sort -n numbers.txt
+sort -u fruits.txt
+sort -k2,2 students.txt
+sort -t ',' -k2,2n students.csv
+sort -M months.txt
+sort -f names.txt
+sort -c names.txt
+sort -o sorted.txt names.txt
+sort -h sizes.txt
+
+# NOTE:
+# Some options, such as -R and -h, are GNU-specific.
+# macOS uses BSD sort, so not all GNU options are available.
+
+# 17. SORT COMMAND WITH PIPE
+
+# Sort command output directly.
+
+# Sort names:
+cat names.txt | sort
+
+# Sort unique names:
+cat names.txt | sort -u
+
+# Sort numbers:
+cat numbers.txt | sort -n
+
+# Sort in reverse:
+cat names.txt | sort -r
+
+# Sort output of ls:
+ls | sort
+
+# NOTE:
+# cat file.txt | sort is valid but sort file.txt is simpler.
+
+# 18. REAL-WORLD EXAMPLES
+
+# Sort a list of users:
+sort users.txt
+
+# Sort IP addresses as text (not numerically by IP address):
+sort ip_addresses.txt
+
+# Sort application log lines alphabetically:
+sort application.log
+
+# Sort a CSV file by marks:
+sort -t ',' -k2,2n students.csv
+
+# Sort disk usage values in human-readable format:
+du -h * | sort -h
+
+# Sort process output by a numeric column:
+ps aux | sort -k3,3n
+
+# 19. PRACTICAL HANDS-ON EXERCISE
+
+# Step 1: Create a directory:
+mkdir sort_practice
+cd sort_practice
+
+# Step 2: Create names file:
+cat > names.txt
+
+# Enter:
+# Sandeep
+# Rahul
+# Aman
+# Priya
+# Mohit
+# Aman
+
+# Press Ctrl + D.
+
+# Step 3: Sort alphabetically:
+sort names.txt
+
+# Step 4: Sort in reverse:
+sort -r names.txt
+
+# Step 5: Remove duplicate names:
+sort -u names.txt
+
+# Step 6: Save sorted names:
+sort names.txt > sorted_names.txt
+
+# Step 7: Create number file:
+cat > numbers.txt
+
+# Enter:
+# 100
+# 20
+# 5
+# 300
+# 10
+
+# Press Ctrl + D.
+
+# Step 8: Sort numerically:
+sort -n numbers.txt
+
+# Step 9: Sort in descending order:
+sort -nr numbers.txt
+
+# Step 10: Create CSV file:
+cat > marks.csv
+
+# Enter:
+# Sandeep,85
+# Rahul,92
+# Aman,95
+# Priya,78
+
+# Press Ctrl + D.
+
+# Step 11: Sort by marks:
+sort -t ',' -k2,2n marks.csv
+
+# Step 12: Sort marks from highest to lowest:
+sort -t ',' -k2,2nr marks.csv
+
+# 20. IMPORTANT INTERVIEW QUESTIONS
+
+# Q1. What is the sort command?
+# Ans: It arranges lines of text in a specified order.
+
+# Q2. What is the default sorting order?
+# Ans: Lexicographical (dictionary-like) order based on locale.
+
+# Q3. How do you sort numbers numerically?
+# Ans: sort -n file.txt
+
+# Q4. How do you sort in reverse order?
+# Ans: sort -r file.txt
+
+# Q5. How do you remove duplicate lines?
+# Ans: sort -u file.txt
+
+# Q6. How do you sort by a particular column?
+# Ans: sort -k2,2 file.txt
+
+# Q7. How do you sort a CSV by its second column?
+# Ans: sort -t ',' -k2,2n file.csv
+
+# Q8. What is the use of -t?
+# Ans: It specifies the field delimiter.
+
+# Q9. What is the use of -k?
+# Ans: It specifies which field or key to sort by.
+
+# Q10. How do you sort numbers in descending order?
+# Ans: sort -nr file.txt
+
+# Q11. How do you check whether a file is sorted?
+# Ans: sort -c file.txt
+
+# Q12. Does sort modify the original file?
+# Ans: No, not by default. It displays the result on stdout.
+
+# 21. QUICK REVISION CHEAT SHEET
+
+# sort file.txt           = Alphabetical/lexicographical sorting
+# sort -r file.txt        = Reverse sorting
+# sort -n file.txt        = Numerical sorting
+# sort -nr file.txt       = Descending numerical sorting
+# sort -u file.txt        = Sort and remove duplicates
+# sort -f file.txt        = Ignore case differences
+# sort -M file.txt        = Sort month names
+# sort -c file.txt        = Check sorting order
+# sort -k2,2 file.txt     = Sort by second field
+# sort -t ',' -k2,2n f.csv = Sort CSV by second field numerically
+# sort -o out.txt f.txt   = Write sorted output to out.txt
+# sort -h sizes.txt       = Human-readable numeric sorting (GNU)
+
+# 22. IMPORTANT POINTS TO REMEMBER
+
+# 1. sort arranges lines of text.
+# 2. Default sorting is lexicographical, not numerical.
+# 3. Use -n for numerical sorting.
+# 4. Use -r for reverse sorting.
+# 5. Use -u to remove duplicate lines.
+# 6. Use -k to sort by a particular field.
+# 7. Use -t to specify a delimiter.
+# 8. Use -M to sort month names.
+# 9. Use -c to check whether a file is sorted.
+# 10. Use redirection to save sorted output.
+# 11. sort does not change the original file by default.
+# 12. Use sort -n for numbers such as 2, 10, 100.
+
+# END OF SORT COMMAND NOTES

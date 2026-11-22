@@ -1,0 +1,630 @@
+
+# ============================================================
+# MASTERING THE FIND COMMAND IN LINUX
+# ============================================================
+
+
+# 1. BASIC FIND COMMANDS
+
+# Search in the current directory and its subdirectories
+find .
+
+# Search inside a particular directory
+find /home/user/Documents
+
+# Search for a file by its exact name
+find . -name "sample.txt"
+
+# Search for a directory
+find . -name "projects"
+
+# Search from the root directory
+find / -name "sample.txt"
+
+# Note: Searching / may require sudo and can produce
+# permission errors.
+
+
+# 2. SEARCH FILES BY NAME (-name)
+
+# Find a file named notes.txt
+find . -name "notes.txt"
+
+# Find all files named data.csv
+find . -name "data.csv"
+
+# Find files with a particular extension
+find . -name "*.txt"
+
+# Find all Python files
+find . -name "*.py"
+
+# Find all PDF files
+find . -name "*.pdf"
+
+# Find all C++ files
+find . -name "*.cpp"
+
+# Find all image files with JPG extension
+find . -name "*.jpg"
+
+
+# 3. CASE-INSENSITIVE SEARCH (-iname)
+
+# Search without considering uppercase/lowercase
+find . -iname "notes.txt"
+
+# Matches:
+# notes.txt
+# NOTES.TXT
+# Notes.txt
+
+# Find all JPG files regardless of extension case
+find . -iname "*.jpg"
+
+
+# 4. SEARCH ONLY FILES OR DIRECTORIES (-type)
+
+# -type f = Regular files
+find . -type f
+
+# -type d = Directories
+find . -type d
+
+# -type l = Symbolic links
+find . -type l
+
+# -type c = Character devices
+find /dev -type c
+
+# -type b = Block devices
+find /dev -type b
+
+# -type p = Named pipes (FIFOs)
+find . -type p
+
+# -type s = Unix domain sockets
+find . -type s
+
+
+# 5. COMBINE NAME AND TYPE
+
+# Find only files named notes.txt
+find . -type f -name "notes.txt"
+
+# Find only directories named projects
+find . -type d -name "projects"
+
+# Find all Python files
+find . -type f -name "*.py"
+
+# Find all text files
+find . -type f -name "*.txt"
+
+# Find all directories ending with _backup
+find . -type d -name "*_backup"
+
+
+# 6. SEARCH USING WILDCARDS
+
+# * = Matches zero or more characters
+find . -name "*.txt"
+
+# ? = Matches exactly one character
+find . -name "file?.txt"
+
+# [abc] = Matches one character from the set
+find . -name "file[123].txt"
+
+# [0-9] = Matches one digit
+find . -name "file[0-9].txt"
+
+# Example matches for file?.txt:
+# file1.txt
+# fileA.txt
+# file9.txt
+
+
+# 7. SEARCH USING MULTIPLE CONDITIONS
+
+# AND: Both conditions must match
+find . -type f -name "*.txt"
+
+# OR: Either condition can match
+find . -type f \( -name "*.txt" -o -name "*.pdf" \)
+
+# Find Python OR JavaScript files
+find . -type f \( -name "*.py" -o -name "*.js" \)
+
+# NOT: Exclude a particular condition
+find . -type f ! -name "*.txt"
+
+# Find files except PDF files
+find . -type f ! -name "*.pdf"
+
+# Alternative NOT syntax
+find . -type f -not -name "*.log"
+
+
+# 8. SEARCH BY FILE SIZE (-size)
+
+# Find files larger than 10 MB
+find . -type f -size +10M
+
+# Find files smaller than 1 MB
+find . -type f -size -1M
+
+# Find files exactly 5 MB in size
+find . -type f -size 5M
+
+# Find empty files
+find . -type f -empty
+
+# Find empty directories
+find . -type d -empty
+
+# Size units:
+# c = Bytes
+# k = Kilobytes
+# M = Megabytes
+# G = Gigabytes
+
+# Examples:
+find . -type f -size +500k
+find . -type f -size +2G
+find . -type f -size 100c
+
+# Important:
+# + means greater than
+# - means less than
+# No sign means the specified size range
+# based on find's size-unit rounding rules.
+
+
+# 9. SEARCH BY MODIFICATION TIME
+
+# -mtime = Modification time in days
+
+# Files modified within the last 24 hours
+find . -type f -mtime -1
+
+# Files modified more than 7 days ago
+find . -type f -mtime +7
+
+# Files modified exactly 2 days ago
+find . -type f -mtime 2
+
+# Files modified within the last 7 days
+find . -type f -mtime -7
+
+# -mmin = Modification time in minutes
+
+# Files modified within the last 10 minutes
+find . -type f -mmin -10
+
+# Files modified more than 30 minutes ago
+find . -type f -mmin +30
+
+# Files modified within the last 60 minutes
+find . -type f -mmin -60
+
+
+# 10. ACCESS TIME AND CHANGE TIME
+
+# -atime = Last access time in days
+find . -type f -atime -1
+
+# Files not accessed for more than 7 days
+find . -type f -atime +7
+
+# -amin = Last access time in minutes
+find . -type f -amin -10
+
+# -ctime = Metadata/status change time in days
+find . -type f -ctime -1
+
+# -cmin = Metadata/status change time in minutes
+find . -type f -cmin -30
+
+# Important:
+# ctime is NOT creation time.
+# It represents the last inode status/metadata change.
+
+
+# 11. SEARCH BY PERMISSIONS (-perm)
+
+# Find files with exactly 644 permissions
+find . -type f -perm 644
+
+# Find files with exactly 755 permissions
+find . -type f -perm 755
+
+# Find files that have at least the specified permissions
+find . -type f -perm -644
+
+# Find files with any execute permission
+find . -type f -perm /111
+
+# Find files with SUID permission
+find . -type f -perm -4000
+
+# Find files with SGID permission
+find . -type f -perm -2000
+
+# Find files with sticky bit permission
+find . -type d -perm -1000
+
+# Note: Permission matching syntax can differ slightly
+# between GNU find and macOS/BSD find.
+
+
+# 12. SEARCH BY USER AND GROUP
+
+# Find files owned by a particular user
+find . -user username
+
+# Find files belonging to a particular group
+find . -group developers
+
+# Find files owned by the current user
+find . -user "$USER"
+
+# Find files owned by root
+find / -user root
+
+# Find files not owned by a particular user
+find . ! -user username
+
+
+# 13. LIMIT SEARCH DEPTH
+
+# Search only in the current directory
+find . -maxdepth 1
+
+# Search up to 2 directory levels
+find . -maxdepth 2
+
+# Search at least 2 levels deep
+find . -mindepth 2
+
+# Search between depth 2 and 4
+find . -mindepth 2 -maxdepth 4
+
+# Find Python files only in the current directory
+find . -maxdepth 1 -type f -name "*.py"
+
+# Note: -maxdepth and -mindepth are available in
+# GNU find and modern macOS/BSD find implementations,
+# but check your local man page for portability.
+
+
+# 14. EXCLUDE DIRECTORIES (-prune)
+
+# Search for Python files but skip the .git directory
+find . -type d -name ".git" -prune -o -type f -name "*.py" -print
+
+# Exclude node_modules
+find . -type d -name "node_modules" -prune -o -type f -name "*.js" -print
+
+# Exclude multiple directories
+find . \( -name ".git" -o -name "node_modules" \) -prune -o -type f -print
+
+# Explanation:
+# -prune prevents find from entering the matched directory.
+# -o means OR.
+# -print displays the matching results.
+
+
+# 15. SEARCH AND DISPLAY WITH LINE NUMBERS
+
+# find itself does not show line numbers.
+# Use grep to search file contents.
+
+# Find all files and search for Linux inside them
+find . -type f -exec grep -n "Linux" {} +
+
+# Search Python files for a function name
+find . -type f -name "*.py" -exec grep -n "def main" {} +
+
+# Search case-insensitively
+find . -type f -exec grep -in "error" {} +
+
+
+# 16. EXECUTE COMMANDS ON FOUND FILES (-exec)
+
+# Syntax:
+# find PATH CONDITION -exec COMMAND {} \;
+
+# {} represents the current matched path.
+# \; marks the end of the command.
+
+# Display details of every found text file
+find . -type f -name "*.txt" -exec ls -l {} \;
+
+# Display file information
+find . -type f -name "*.log" -exec file {} \;
+
+# Count lines in every Python file
+find . -type f -name "*.py" -exec wc -l {} \;
+
+# Execute a command on multiple files using +
+# This can be more efficient than \;.
+
+find . -type f -name "*.txt" -exec ls -l {} +
+
+# Difference:
+# \; = Run the command separately for each result.
+# +  = Pass multiple results to the command together.
+
+
+# 17. DELETE FILES USING FIND
+
+# Find all .tmp files
+find . -type f -name "*.tmp"
+
+# Delete all .tmp files
+find . -type f -name "*.tmp" -delete
+
+# Delete empty files
+find . -type f -empty -delete
+
+# Delete empty directories
+find . -type d -empty -delete
+
+# Delete log files older than 30 days
+find . -type f -name "*.log" -mtime +30 -delete
+
+# IMPORTANT:
+# Always run the search without -delete first.
+# Verify the results before deleting anything.
+# Deleted files may not be recoverable.
+
+
+# 18. SEARCH AND COPY FILES
+
+# Copy all PDF files into a backup directory
+mkdir -p backup
+find . -type f -name "*.pdf" -exec cp -n {} backup/ \;
+
+# Note:
+# -n prevents overwriting existing files on common
+# GNU/BSD implementations.
+
+
+# 19. SEARCH AND MOVE FILES
+
+# Create an archive directory
+mkdir -p archive
+
+# Move all .log files into archive
+find . -maxdepth 1 -type f -name "*.log" -exec mv {} archive/ \;
+
+# Be careful:
+# Files with identical names may cause conflicts.
+
+
+# 20. SEARCH AND CHANGE PERMISSIONS
+
+# Find shell scripts
+find . -type f -name "*.sh"
+
+# Add execute permission to found shell scripts
+find . -type f -name "*.sh" -exec chmod +x {} +
+
+# Find files and remove write permission for others
+find . -type f -exec chmod o-w {} +
+
+# Be careful when changing permissions recursively.
+
+
+# 21. FIND WITH PRINT OPTIONS
+
+# Display full paths
+find . -type f -print
+
+# Display matching directories
+find . -type d -print
+
+# Print matching files with a message
+find . -type f -name "*.txt" -print
+
+# Display detailed file information
+find . -type f -name "*.txt" -exec ls -lh {} +
+
+# Display only the number of matching files
+find . -type f -name "*.txt" -print | wc -l
+
+
+# 22. FIND FILES AND SEARCH THEIR CONTENTS
+
+# Search for the word "Linux" inside all text files
+find . -type f -name "*.txt" -exec grep -n "Linux" {} +
+
+# Search for ERROR inside log files
+find . -type f -name "*.log" -exec grep -in "ERROR" {} +
+
+# Search for a word inside Python files
+find . -type f -name "*.py" -exec grep -n "import" {} +
+
+# Search recursively using grep directly
+grep -rn --include="*.py" "import" .
+
+
+# 23. FIND RECENTLY CREATED OR MODIFIED FILES
+
+# Files modified in the last 24 hours
+find . -type f -mtime -1
+
+# Files modified in the last 5 minutes
+find . -type f -mmin -5
+
+# Files modified in the last 7 days
+find . -type f -mtime -7
+
+# Find files modified after a reference file
+find . -type f -newer reference.txt
+
+# Find files newer than a specific timestamp
+# GNU/Linux example:
+find . -type f -newermt "2026-11-01"
+
+# Note: -newermt is GNU-specific and is not supported
+# by the default macOS/BSD find.
+
+
+# 24. FIND SYMBOLIC LINKS
+
+# Find all symbolic links
+find . -type l
+
+# Find symbolic links with a particular name
+find . -type l -name "*.txt"
+
+# Display symbolic link targets
+find . -type l -exec ls -l {} +
+
+# Find broken symbolic links
+find . -type l -exec sh -c '
+for file do
+    [ -e "$file" ] || printf "%s\n" "$file"
+done
+' sh {} +
+
+
+# 25. FIND FILES USING MULTIPLE CONDITIONS
+
+# Find PDF files larger than 5 MB
+find . -type f -name "*.pdf" -size +5M
+
+# Find Python files modified in the last 7 days
+find . -type f -name "*.py" -mtime -7
+
+# Find empty text files
+find . -type f -name "*.txt" -empty
+
+# Find log files larger than 100 MB
+find . -type f -name "*.log" -size +100M
+
+# Find files that are not PDFs and not TXT files
+find . -type f ! -name "*.pdf" ! -name "*.txt"
+
+
+# 26. USEFUL REAL-WORLD EXAMPLES
+
+# Find large files taking up disk space
+find . -type f -size +100M
+
+# Find all configuration files
+find /etc -type f -name "*.conf"
+
+# Find all log files
+find /var/log -type f -name "*.log"
+
+# Find all Python files in a project
+find . -type f -name "*.py"
+
+# Find all JavaScript files, excluding node_modules
+find . -type d -name "node_modules" -prune -o -type f -name "*.js" -print
+
+# Find files that have not been modified for 90 days
+find . -type f -mtime +90
+
+# Find empty directories in a project
+find . -type d -empty
+
+# Find executable files
+find . -type f -executable
+
+# Find files owned by root
+find / -type f -user root 2>/dev/null
+
+# 2>/dev/null hides permission error messages.
+
+
+# ============================================================
+# IMPORTANT FIND OPTIONS - QUICK REVISION
+# ============================================================
+
+# find . -name "file.txt"       Search by exact name
+# find . -iname "file.txt"      Case-insensitive name search
+# find . -type f                Search regular files
+# find . -type d                Search directories
+# find . -type l                Search symbolic links
+# find . -size +10M             Files larger than 10 MB
+# find . -empty                 Find empty files/directories
+# find . -mtime -7              Modified within 7 days
+# find . -mmin -10              Modified within 10 minutes
+# find . -user username         Search by owner
+# find . -group developers      Search by group
+# find . -perm 644              Exact permission match
+# find . -maxdepth 2            Limit search depth
+# find . -exec COMMAND {} \;    Execute per result
+# find . -delete                Delete matching results
+# find . -prune                 Skip matching directories
+# find . -newer file.txt        Find newer files
+
+
+# ============================================================
+# PRACTICAL EXERCISES
+# ============================================================
+
+# Create a practice directory
+mkdir -p find_practice/{documents,images,scripts,logs}
+
+# Create sample files
+touch find_practice/documents/notes.txt
+touch find_practice/documents/report.pdf
+touch find_practice/images/photo.jpg
+touch find_practice/scripts/main.py
+touch find_practice/scripts/test.py
+touch find_practice/logs/app.log
+touch find_practice/logs/error.log
+
+# Exercise 1:
+# Find all text files.
+find find_practice -type f -name "*.txt"
+
+# Exercise 2:
+# Find all directories.
+find find_practice -type d
+
+# Exercise 3:
+# Find all Python files.
+find find_practice -type f -name "*.py"
+
+# Exercise 4:
+# Find all PDF files.
+find find_practice -type f -name "*.pdf"
+
+# Exercise 5:
+# Find empty files.
+find find_practice -type f -empty
+
+# Exercise 6:
+# Find all log files.
+find find_practice -type f -name "*.log"
+
+# Exercise 7:
+# Find files modified within the last 10 minutes.
+find find_practice -type f -mmin -10
+
+# Exercise 8:
+# Count all files.
+find find_practice -type f | wc -l
+
+# Exercise 9:
+# Find all JPG images without considering case.
+find find_practice -type f -iname "*.jpg"
+
+# Exercise 10:
+# Display detailed information about Python files.
+find find_practice -type f -name "*.py" -exec ls -l {} +
+
+# Clean up the practice directory after completing exercises.
+# Be certain you are deleting only the practice directory.
+rm -r find_practice
+
+
+# ============================================================
+# END OF FIND COMMAND NOTES
+# ============================================================

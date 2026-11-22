@@ -1,0 +1,392 @@
+
+# ============================================================
+# MASTERING LINUX TERMINAL SHORTCUTS
+# ============================================================
+
+# 1. BASIC TERMINAL SHORTCUTS
+
+# Ctrl + C
+# Stop or interrupt the currently running command.
+
+# Example:
+ping google.com
+# Press Ctrl + C to stop ping.
+
+
+# Ctrl + D
+# Send EOF (End Of File).
+# Exit the current shell if the command line is empty.
+# In some programs, it signals the end of input.
+
+# Ctrl + L
+# Clear the terminal screen.
+# Same as the clear command.
+
+# Ctrl + Z
+# Suspend the currently running foreground process.
+# It does NOT terminate the process.
+
+# Example:
+ping google.com
+# Press Ctrl + Z to suspend it.
+
+# fg
+# Resume the suspended process in the foreground.
+
+# bg
+# Resume a suspended process in the background.
+
+# jobs
+# Display background and suspended jobs.
+
+
+# 2. COMMAND LINE CURSOR MOVEMENT
+
+# Ctrl + A
+# Move cursor to the beginning of the command line.
+
+# Ctrl + E
+# Move cursor to the end of the command line.
+
+# Ctrl + F
+# Move cursor one character forward.
+
+# Ctrl + B
+# Move cursor one character backward.
+
+# Alt + F
+# Move cursor one word forward.
+
+# Alt + B
+# Move cursor one word backward.
+
+# Ctrl + XX
+# Switch between the beginning of the line and
+# the current cursor position (Bash).
+
+
+# Example:
+# Suppose your command is:
+# mkdir projects/linux/tutorial
+#
+# Use Ctrl + A to move to the beginning.
+# Use Ctrl + E to move to the end.
+# Use Ctrl + B to move backward.
+
+
+# 3. DELETING TEXT FROM THE COMMAND LINE
+
+# Ctrl + U
+# Delete everything from the cursor to the beginning
+# of the command line.
+
+# Ctrl + K
+# Delete everything from the cursor to the end
+# of the command line.
+
+# Ctrl + W
+# Delete the word before the cursor.
+
+# Alt + D
+# Delete the word after the cursor.
+
+# Backspace
+# Delete the character before the cursor.
+
+# Ctrl + H
+# Delete the character before the cursor in many shells.
+
+# Ctrl + D
+# Delete the character under the cursor when the
+# command line is not empty.
+
+# Ctrl + Y
+# Paste the most recently killed text.
+
+
+# 4. COMMAND HISTORY SHORTCUTS
+
+# Up Arrow
+# Display the previous command.
+
+# Down Arrow
+# Display the next command in history.
+
+# Ctrl + P
+# Previous command.
+
+# Ctrl + N
+# Next command.
+
+# Ctrl + R
+# Search command history interactively.
+
+# Example:
+# Press Ctrl + R
+# Type: mkdir
+# The terminal searches previous commands containing mkdir.
+# Press Ctrl + R again to find an older match.
+# Press Enter to execute the selected command.
+
+# Ctrl + G
+# Cancel the current reverse history search.
+
+# !!
+# Execute the previous command again.
+
+# Example:
+ls
+!!
+
+# !$
+# Use the last argument of the previous command.
+
+# Example:
+mkdir linux
+cd !$
+
+# !*
+# Use all arguments from the previous command.
+
+# history
+# Display command history.
+
+# history 10
+# Display the last 10 commands.
+
+# Ctrl + O
+# Execute the current command from history and
+# display the next command in history (Bash).
+
+
+# 5. COMMAND EDITING SHORTCUTS
+
+# Ctrl + T
+# Swap the character before the cursor with
+# the character under the cursor.
+
+# Alt + T
+# Swap the current word with the previous word.
+
+# Ctrl + _
+# Undo the previous editing operation in many
+# Readline-based shells.
+
+# Alt + U
+# Convert the current word to uppercase (Bash Readline).
+
+# Alt + L
+# Convert the current word to lowercase (Bash Readline).
+
+# Alt + C
+# Capitalize the current word (Bash Readline).
+
+
+# 6. TERMINAL SCREEN SHORTCUTS
+
+# Ctrl + L
+# Clear the visible terminal screen.
+
+# clear
+# Clear the terminal screen.
+
+# reset
+# Reset terminal display settings if the screen
+# becomes corrupted.
+
+# Ctrl + S
+# Pause terminal output (XON/XOFF flow control).
+
+# Ctrl + Q
+# Resume terminal output after Ctrl + S.
+
+# IMPORTANT:
+# If your terminal appears frozen after Ctrl + S,
+# press Ctrl + Q to resume it.
+
+
+# 7. PROCESS MANAGEMENT SHORTCUTS
+
+# Ctrl + C
+# Interrupt the foreground process.
+
+# Ctrl + Z
+# Suspend the foreground process.
+
+# fg
+# Bring a suspended/background job to foreground.
+
+# bg
+# Continue a suspended job in the background.
+
+# jobs
+# List current shell jobs.
+
+# kill %1
+# Send a termination signal to job number 1.
+
+# kill -9 PID
+# Forcefully terminate a process using its PID.
+# Use only when normal termination does not work.
+
+# Example:
+sleep 100
+# Press Ctrl + Z
+jobs
+bg
+# Resume the suspended sleep command in background.
+
+# Note:
+# Ctrl + C usually sends SIGINT.
+# Ctrl + Z usually sends SIGTSTP.
+
+
+# 8. RUNNING COMMANDS IN THE BACKGROUND
+
+# Add & at the end of a command to run it in background.
+
+sleep 100 &
+
+# Display background jobs.
+jobs
+
+# Bring job 1 to foreground.
+fg %1
+
+# Suspend a foreground job.
+# Press Ctrl + Z
+
+# Resume it in background.
+bg
+
+
+# 9. USEFUL COMMAND HISTORY TECHNIQUES
+
+# Repeat the last command.
+!!
+
+# Repeat a command that starts with a particular word.
+!ls
+
+# Repeat the most recent command containing a string.
+!?python
+
+# Display the previous command without executing it.
+fc -ln -1
+
+# Search command history.
+history | grep "python"
+
+# Clear current shell history.
+history -c
+
+# Note:
+# History behavior and persistence depend on your shell.
+
+
+# 10. TAB COMPLETION
+
+# Press Tab to complete a command or filename.
+
+# Example:
+cd Doc
+# Press Tab to complete Documents if unambiguous.
+
+# Press Tab twice to display possible completions
+# when multiple matches exist.
+
+# Tab completion can help with:
+# - Commands
+# - File names
+# - Directory names
+# - Paths
+# - Some command arguments
+
+
+# 11. USEFUL COMMAND LINE TRICKS
+
+# Run the previous command with sudo.
+sudo !!
+
+# Example:
+apt update
+sudo !!
+# Repeats the previous command with sudo.
+
+# Run two commands sequentially.
+mkdir test && cd test
+
+# Run the second command only if the first fails.
+mkdir test || echo "Directory creation failed"
+
+# Run commands one after another regardless of success.
+pwd ; ls ; whoami
+
+# Use command substitution.
+echo "Current directory: $(pwd)"
+
+# Use brace expansion.
+mkdir -p project/{src,docs,tests}
+
+# Use wildcard expansion.
+ls *.txt
+
+
+# 12. IMPORTANT MACOS TERMINAL SHORTCUTS
+
+# Most Bash/Zsh command-line shortcuts also work in macOS.
+
+# Ctrl + A       Beginning of command line
+# Ctrl + E       End of command line
+# Ctrl + C       Interrupt command
+# Ctrl + D       EOF / exit empty shell
+# Ctrl + L       Clear screen
+# Ctrl + R       Search command history
+# Ctrl + U       Delete before cursor
+# Ctrl + K       Delete after cursor
+# Ctrl + W       Delete previous word
+# Alt + B        Move backward one word
+# Alt + F        Move forward one word
+# Tab            Autocomplete
+
+# macOS note:
+# Option (Alt) key behavior may depend on Terminal settings.
+# You may need to configure Option as Meta in Terminal
+# settings to use some Alt-based shortcuts.
+
+
+# ============================================================
+# QUICK REVISION CHEAT SHEET
+# ============================================================
+
+# Ctrl + C  = Interrupt current process
+# Ctrl + D  = Send EOF / exit empty shell
+# Ctrl + Z  = Suspend foreground process
+# Ctrl + L  = Clear terminal screen
+# Ctrl + A  = Move to beginning of line
+# Ctrl + E  = Move to end of line
+# Ctrl + U  = Delete from cursor to beginning
+# Ctrl + K  = Delete from cursor to end
+# Ctrl + W  = Delete previous word
+# Ctrl + Y  = Paste killed text
+# Ctrl + R  = Search command history
+# Ctrl + P  = Previous command
+# Ctrl + N  = Next command
+# Ctrl + F  = Move forward one character
+# Ctrl + B  = Move backward one character
+# Alt + F   = Move forward one word
+# Alt + B   = Move backward one word
+# Ctrl + T  = Swap adjacent characters
+# Ctrl + S  = Pause terminal output
+# Ctrl + Q  = Resume terminal output
+# Tab       = Autocomplete
+# !!        = Execute previous command
+# !$        = Last argument of previous command
+# history   = Display command history
+# fg        = Bring job to foreground
+# bg        = Resume job in background
+# jobs      = Display shell jobs
+
+# ============================================================
+# END OF NOTES
+# ============================================================

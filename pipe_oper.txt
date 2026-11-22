@@ -1,0 +1,494 @@
+
+# ==========================================================
+# LINUX PIPE OPERATOR (|) - COMPLETE NOTES
+# ==========================================================
+
+# 1. INTRODUCTION
+
+# The pipe operator (|) connects two or more Linux commands.
+# It sends the standard output (stdout) of one command
+# to the standard input (stdin) of the next command.
+
+# In simple words:
+# Command 1 output -> Command 2 input.
+
+# Example:
+ls | less
+
+# Explanation:
+# ls displays files and directories.
+# | sends the output of ls to less.
+# less displays the result page by page.
+
+# 2. BASIC SYNTAX
+
+command1 | command2
+
+# Multiple commands:
+command1 | command2 | command3
+
+# Example:
+cat names.txt | sort | uniq
+
+# Explanation:
+# cat   = Reads file contents.
+# sort  = Sorts the lines.
+# uniq  = Removes adjacent duplicate lines.
+
+# IMPORTANT:
+# A normal pipe connects stdout to stdin.
+# It does not automatically transfer stderr.
+
+
+# ==========================================================
+# 3. BASIC PIPE EXAMPLES
+# ==========================================================
+
+# EXAMPLE 1: Display files page by page
+ls | less
+
+# EXAMPLE 2: Sort file contents
+cat names.txt | sort
+
+# EXAMPLE 3: Search for a particular word
+cat file.txt | grep "Linux"
+
+# EXAMPLE 4: Count lines
+cat file.txt | wc -l
+
+# EXAMPLE 5: Count words
+cat file.txt | wc -w
+
+# EXAMPLE 6: Count characters/bytes
+cat file.txt | wc -c
+
+# EXAMPLE 7: Sort and display unique lines
+cat names.txt | sort | uniq
+
+# EXAMPLE 8: Display first 5 lines after sorting
+cat names.txt | sort | head -n 5
+
+# EXAMPLE 9: Display last 5 lines after sorting
+cat names.txt | sort | tail -n 5
+
+# EXAMPLE 10: Search and count matching lines
+cat file.txt | grep "Linux" | wc -l
+
+
+# ==========================================================
+# 4. PIPE WITH GREP COMMAND
+# ==========================================================
+
+# grep is used to search for text or patterns.
+
+# Search for Linux in a file
+cat file.txt | grep "Linux"
+
+# Search for ERROR in log output
+cat application.log | grep "ERROR"
+
+# Search without case sensitivity
+cat file.txt | grep -i "linux"
+
+# Search and display line numbers
+cat file.txt | grep -n "Linux"
+
+# Search for multiple matching terms
+cat application.log | grep -E "ERROR|WARNING"
+
+# IMPORTANT:
+# You can directly use grep file.txt instead of
+# cat file.txt | grep when searching a single file.
+
+
+# ==========================================================
+# 5. PIPE WITH SORT COMMAND
+# ==========================================================
+
+# Sort names alphabetically
+cat names.txt | sort
+
+# Sort numbers numerically
+cat numbers.txt | sort -n
+
+# Sort in reverse order
+cat names.txt | sort -r
+
+# Sort numbers in descending order
+cat numbers.txt | sort -nr
+
+# Sort and remove duplicate lines
+cat names.txt | sort | uniq
+
+
+# ==========================================================
+# 6. PIPE WITH UNIQ COMMAND
+# ==========================================================
+
+# uniq removes adjacent duplicate lines.
+
+# Remove duplicates from sorted content
+cat names.txt | sort | uniq
+
+# Count occurrences of each line
+cat names.txt | sort | uniq -c
+
+# Display only duplicate lines
+cat names.txt | sort | uniq -d
+
+# Display only unique lines
+cat names.txt | sort | uniq -u
+
+# IMPORTANT:
+# uniq only checks adjacent lines.
+# Therefore, sort is commonly used before uniq.
+
+
+# ==========================================================
+# 7. PIPE WITH WC COMMAND
+# ==========================================================
+
+# Count lines
+cat file.txt | wc -l
+
+# Count words
+cat file.txt | wc -w
+
+# Count bytes
+cat file.txt | wc -c
+
+# Count characters (GNU/Linux)
+cat file.txt | wc -m
+
+# Count files/directories listed by ls
+ls | wc -l
+
+# Count matching ERROR lines
+grep "ERROR" application.log | wc -l
+
+
+# ==========================================================
+# 8. PIPE WITH HEAD AND TAIL
+# ==========================================================
+
+# Display first 5 lines
+cat file.txt | head -n 5
+
+# Display last 5 lines
+cat file.txt | tail -n 5
+
+# Sort and display first 3 lines
+cat names.txt | sort | head -n 3
+
+# Sort and display last 3 lines
+cat names.txt | sort | tail -n 3
+
+# Display the latest 10 log entries
+tail -n 10 application.log
+
+
+# ==========================================================
+# 9. PIPE WITH CUT COMMAND
+# ==========================================================
+
+# cut extracts specific fields or columns.
+
+# Create a CSV file:
+# Name,Marks,City
+# Sandeep,85,Delhi
+# Rahul,92,Mumbai
+# Aman,95,Delhi
+
+# Extract the first column
+cut -d ',' -f 1 students.csv
+
+# Extract the second column
+cut -d ',' -f 2 students.csv
+
+# Extract the first and second columns
+cut -d ',' -f 1,2 students.csv
+
+# Sort names extracted from the CSV
+cut -d ',' -f 1 students.csv | sort
+
+# IMPORTANT:
+# -d specifies the delimiter.
+# -f specifies the field or column.
+
+
+# ==========================================================
+# 10. PIPE WITH AWK COMMAND
+# ==========================================================
+
+# awk is used to process text and columns.
+
+# Display the first column
+cat students.txt | awk '{print $1}'
+
+# Display the second column
+cat students.txt | awk '{print $2}'
+
+# Display the first and second columns
+cat students.txt | awk '{print $1, $2}'
+
+# Print lines where the third column is greater than 80
+cat students.txt | awk '$3 > 80'
+
+# IMPORTANT:
+# awk is useful for extracting and processing structured text.
+
+
+# ==========================================================
+# 11. MULTIPLE PIPE OPERATORS
+# ==========================================================
+
+# Multiple pipes can connect multiple commands.
+
+# Example 1:
+cat names.txt | sort | uniq
+
+# Example 2:
+cat application.log | grep "ERROR" | sort | uniq
+
+# Example 3:
+cat application.log | grep "ERROR" | wc -l
+
+# Example 4:
+cat students.txt | sort | head -n 5
+
+# Example 5:
+cat students.txt | grep "Delhi" | sort
+
+# Execution flow:
+# Command 1 -> Command 2 -> Command 3 -> Command 4
+
+
+# ==========================================================
+# 12. PIPE WITH REDIRECTION
+# ==========================================================
+
+# Save the output of a pipeline into a file
+cat names.txt | sort > sorted_names.txt
+
+# Append pipeline output to a file
+cat names.txt | sort >> sorted_names.txt
+
+# Search errors and save the results
+grep "ERROR" application.log > errors.txt
+
+# Count matching lines and save the result
+grep "ERROR" application.log | wc -l > error_count.txt
+
+# IMPORTANT:
+# > overwrites the destination file.
+# >> appends to the destination file.
+
+
+# ==========================================================
+# 13. PIPE WITH STANDARD ERROR
+# ==========================================================
+
+# A normal pipe transfers stdout only.
+# Error messages (stderr) are not included automatically.
+
+# Redirect stderr into stdout before piping:
+command 2>&1 | less
+
+# Bash and zsh also support:
+command |& less
+
+# Example:
+ls existing.txt missing.txt 2>&1 | less
+
+# EXPLANATION:
+# 2>&1 sends stderr to stdout.
+# | sends the combined output to less.
+
+# IMPORTANT:
+# |& is supported by Bash and zsh.
+# It is not POSIX portable shell syntax.
+
+
+# ==========================================================
+# 14. PRACTICAL REAL-WORLD EXAMPLES
+# ==========================================================
+
+# Find ERROR messages in an application log
+grep "ERROR" application.log
+
+# Count all ERROR lines
+grep -c "ERROR" application.log
+
+# Find WARNING messages
+grep "WARNING" application.log
+
+# Display the last 10 error messages
+grep "ERROR" application.log | tail -n 10
+
+# Find errors without case sensitivity
+grep -i "error" application.log
+
+# Sort error messages
+grep "ERROR" application.log | sort
+
+# Find unique error messages and their counts
+grep "ERROR" application.log | sort | uniq -c
+
+# Find a process by name
+ps aux | grep "python"
+
+# Find files containing a specific word
+grep -r "Linux" .
+
+# Count files in the current directory
+ls -1 | wc -l
+
+# Find large files (human-readable output)
+du -ah . | sort -h | tail -n 10
+
+
+# ==========================================================
+# 15. PRACTICAL HANDS-ON EXERCISE
+# ==========================================================
+
+# Step 1: Create a practice directory
+mkdir pipe_practice
+cd pipe_practice
+
+# Step 2: Create a names file
+cat > names.txt
+
+# Enter:
+# Sandeep
+# Rahul
+# Aman
+# Priya
+# Mohit
+# Aman
+# Rahul
+# Sandeep
+
+# Press Ctrl + D.
+
+# Step 3: Display names using cat
+cat names.txt
+
+# Step 4: Sort names alphabetically
+cat names.txt | sort
+
+# Step 5: Remove duplicates
+cat names.txt | sort | uniq
+
+# Step 6: Count occurrences
+cat names.txt | sort | uniq -c
+
+# Step 7: Display first 3 sorted names
+cat names.txt | sort | head -n 3
+
+# Step 8: Search for Rahul
+cat names.txt | grep "Rahul"
+
+# Step 9: Count how many times Rahul appears
+cat names.txt | grep -c "Rahul"
+
+# Step 10: Save sorted names into another file
+cat names.txt | sort > sorted_names.txt
+
+# Step 11: Count total lines
+cat names.txt | wc -l
+
+
+# ==========================================================
+# 16. IMPORTANT INTERVIEW QUESTIONS
+# ==========================================================
+
+# Q1. What is a pipe operator in Linux?
+# Ans: It connects commands by passing stdout of one command
+#      to stdin of another command.
+
+# Q2. What is the symbol of a pipe?
+# Ans: |
+
+# Q3. What does command1 | command2 mean?
+# Ans: Output of command1 becomes input of command2.
+
+# Q4. Can we use multiple pipes?
+# Ans: Yes. Example: cat file.txt | sort | uniq.
+
+# Q5. Does a normal pipe transfer stderr?
+# Ans: No. It transfers stdout only.
+
+# Q6. How do you send stdout and stderr through a pipe?
+# Ans: command 2>&1 | command2
+#      Or in Bash/zsh: command |& command2
+
+# Q7. What is the difference between > and |?
+# Ans: > redirects output to a file.
+#      | passes output to another command.
+
+# Q8. What is the use of grep with a pipe?
+# Ans: It filters output by searching for matching text.
+
+# Q9. What is the use of sort | uniq?
+# Ans: It sorts lines and removes adjacent duplicates.
+
+# Q10. What is the use of wc -l?
+# Ans: It counts lines.
+
+# Q11. Can a pipe connect more than two commands?
+# Ans: Yes. Multiple commands can be connected using |.
+
+# Q12. What is a pipeline?
+# Ans: A sequence of commands connected through pipes.
+
+
+# ==========================================================
+# 17. QUICK REVISION CHEAT SHEET
+# ==========================================================
+
+# command1 | command2
+# Pass output of command1 to command2.
+
+# cat file.txt | grep "Linux"
+# Search for Linux.
+
+# cat file.txt | sort
+# Sort file contents.
+
+# cat file.txt | sort | uniq
+# Sort and remove duplicates.
+
+# cat file.txt | wc -l
+# Count lines.
+
+# cat file.txt | head -n 5
+# Display first 5 lines.
+
+# cat file.txt | tail -n 5
+# Display last 5 lines.
+
+# cat names.txt | sort | uniq -c
+# Count occurrences of each name.
+
+# command > output.txt
+# Save output into a file.
+
+# command 2>&1 | less
+# Send stdout and stderr through a pipe.
+
+# ==========================================================
+# 18. IMPORTANT POINTS TO REMEMBER
+# ==========================================================
+
+# 1. Pipe symbol is |.
+# 2. Pipe connects two or more commands.
+# 3. stdout of the first command becomes stdin of the next.
+# 4. A normal pipe does not automatically transfer stderr.
+# 5. Multiple pipes can be used in one command.
+# 6. Pipes help filter and process large amounts of data.
+# 7. grep, sort, uniq, wc, head and tail are commonly used with pipes.
+# 8. > redirects output to a file.
+# 9. | redirects output to another command.
+# 10. Use 2>&1 or |& to include errors in a pipeline.
+
+# END OF LINUX PIPE OPERATOR NOTES

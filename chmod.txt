@@ -1,0 +1,575 @@
+
+# ============================================================
+# MASTERING CHMOD COMMAND IN LINUX
+# ============================================================
+
+
+# 1. BASIC SYNTAX
+
+# chmod [OPTIONS] PERMISSIONS FILE_OR_DIRECTORY
+
+# Example:
+chmod 755 sample.txt
+
+# chmod  = Command
+# 755    = Permissions
+# sample.txt = Target file
+
+
+# 2. UNDERSTANDING LINUX PERMISSIONS
+
+# Three basic permissions:
+
+# r = Read
+# w = Write
+# x = Execute
+
+# Three user categories:
+
+# u = User / Owner
+# g = Group
+# o = Others
+# a = All (user + group + others)
+
+# Example permission:
+# -rwxr-xr--
+
+# Breakdown:
+# -     = Regular file
+# rwx   = Owner permissions
+# r-x   = Group permissions
+# r--   = Others permissions
+
+
+# 3. NUMERIC PERMISSION SYSTEM
+
+# Each permission has a numeric value:
+
+# Read    (r) = 4
+# Write   (w) = 2
+# Execute (x) = 1
+
+# Calculate permission values by adding them.
+
+# rwx = 4 + 2 + 1 = 7
+# rw- = 4 + 2     = 6
+# r-x = 4 + 1     = 5
+# r-- = 4         = 4
+# -wx = 2 + 1     = 3
+# -w- = 2         = 2
+# --x = 1         = 1
+# --- = 0
+
+# Numeric format:
+# chmod OWNER GROUP OTHERS filename
+
+# Example:
+chmod 755 sample.txt
+
+# 755 means:
+# Owner  = 7 = rwx
+# Group  = 5 = r-x
+# Others = 5 = r-x
+
+
+# 4. COMMON NUMERIC PERMISSIONS
+
+# 777 = rwxrwxrwx
+# Everyone has read, write, execute.
+
+# 755 = rwxr-xr-x
+# Owner has full access.
+# Group and others have read and execute.
+
+# 750 = rwxr-x---
+# Owner has full access.
+# Group has read and execute.
+# Others have no access.
+
+# 700 = rwx------
+# Only owner has full access.
+
+# 644 = rw-r--r--
+# Owner can read and write.
+# Group and others can read.
+
+# 640 = rw-r-----
+# Owner can read and write.
+# Group can read.
+# Others have no access.
+
+# 600 = rw-------
+# Only owner can read and write.
+
+# 444 = r--r--r--
+# Everyone can only read.
+
+# 400 = r--------
+# Only owner can read.
+
+
+# 5. APPLY NUMERIC PERMISSIONS
+
+# Create a sample file
+touch sample.txt
+
+# Give everyone full permissions
+chmod 777 sample.txt
+
+# Give owner full permissions and group/others read-execute
+chmod 755 sample.txt
+
+# Give owner read/write and others read-only
+chmod 644 sample.txt
+
+# Give only owner read/write permissions
+chmod 600 sample.txt
+
+# Give everyone read-only permissions
+chmod 444 sample.txt
+
+# Check permissions
+ls -l sample.txt
+
+
+# 6. SYMBOLIC PERMISSION SYSTEM
+
+# Symbolic permissions use letters.
+
+# u = Owner
+# g = Group
+# o = Others
+# a = All
+
+# Operators:
+# + = Add permission
+# - = Remove permission
+# = = Set exact permission
+
+
+# 7. ADDING PERMISSIONS (+)
+
+# Give owner execute permission
+chmod u+x sample.txt
+
+# Give owner read permission
+chmod u+r sample.txt
+
+# Give owner write permission
+chmod u+w sample.txt
+
+# Give group write permission
+chmod g+w sample.txt
+
+# Give others read permission
+chmod o+r sample.txt
+
+# Give everyone execute permission
+chmod a+x sample.txt
+
+# Give owner and group write permission
+chmod ug+w sample.txt
+
+
+# 8. REMOVING PERMISSIONS (-)
+
+# Remove owner execute permission
+chmod u-x sample.txt
+
+# Remove owner write permission
+chmod u-w sample.txt
+
+# Remove group write permission
+chmod g-w sample.txt
+
+# Remove others read permission
+chmod o-r sample.txt
+
+# Remove execute permission from everyone
+chmod a-x sample.txt
+
+# Remove write permission from everyone
+chmod a-w sample.txt
+
+
+# 9. SETTING EXACT PERMISSIONS (=)
+
+# Set owner permissions to read and write
+chmod u=rw sample.txt
+
+# Set group permissions to read only
+chmod g=r sample.txt
+
+# Remove all permissions from others
+chmod o= sample.txt
+
+# Set exact permissions for all categories
+chmod u=rwx,g=rx,o=r sample.txt
+
+# Result:
+# -rwxr-xr--
+
+
+# 10. APPLY MULTIPLE PERMISSION CHANGES
+
+# Give owner execute permission and remove
+# group write permission
+chmod u+x,g-w sample.txt
+
+# Give owner full permissions,
+# group read permission,
+# others no permissions
+chmod u=rwx,g=r,o= sample.txt
+
+# Give owner and group read/write permissions
+chmod ug+rw sample.txt
+
+# Remove write permission from group and others
+chmod go-w sample.txt
+
+
+# 11. RECURSIVE PERMISSIONS (-R)
+
+# -R = Recursive
+
+# Change permissions of a directory and all its contents
+chmod -R 755 myfolder
+
+# Give owner execute permission recursively
+chmod -R u+x myfolder
+
+# Remove write permission recursively
+chmod -R a-w myfolder
+
+# Set permissions recursively
+chmod -R 644 myfolder
+
+# IMPORTANT:
+# Applying the same permission to files and directories
+# can cause problems.
+#
+# For example, chmod -R 644 myfolder removes execute
+# permission from directories, making traversal difficult.
+#
+# Better approach:
+
+# Give directories 755
+find myfolder -type d -exec chmod 755 {} +
+
+# Give regular files 644
+find myfolder -type f -exec chmod 644 {} +
+
+
+# 12. CHMOD FOR DIRECTORIES
+
+# Create a directory
+mkdir myfolder
+
+# Give owner full access
+chmod 700 myfolder
+
+# Give owner full access and others read/execute
+chmod 755 myfolder
+
+# Give owner and group access
+chmod 770 myfolder
+
+# Give everyone full access
+chmod 777 myfolder
+
+# Directory permissions:
+# r = List directory entries
+# w = Create, delete, and rename entries
+# x = Search/traverse the directory
+
+
+# 13. CHMOD FOR EXECUTABLE FILES
+
+# Create a shell script
+echo 'echo "Hello Linux"' > script.sh
+
+# Check current permissions
+ls -l script.sh
+
+# Add execute permission to owner
+chmod u+x script.sh
+
+# Execute the script
+./script.sh
+
+# Give everyone read and execute permission
+chmod 755 script.sh
+
+# Remove execute permission
+chmod a-x script.sh
+
+
+# 14. SPECIAL PERMISSIONS
+
+# Linux has three special permission bits:
+
+# SUID = Set User ID = 4000
+# SGID = Set Group ID = 2000
+# Sticky Bit = 1000
+
+
+# A. SUID
+
+# Set SUID using symbolic mode
+chmod u+s program
+
+# Set SUID using numeric mode
+chmod 4755 program
+
+# SUID on an executable generally makes it run
+# with the effective user ID of its owner.
+
+# Example permission:
+# -rwsr-xr-x
+
+
+# B. SGID
+
+# Set SGID
+chmod g+s sharedfolder
+
+# Numeric method
+chmod 2755 sharedfolder
+
+# SGID on a directory makes newly created entries
+# normally inherit the directory's group on Linux.
+
+# Example permission:
+# drwxr-sr-x
+
+
+# C. STICKY BIT
+
+# Set sticky bit
+chmod +t sharedfolder
+
+# Numeric method
+chmod 1777 sharedfolder
+
+# Sticky directories restrict users from deleting
+# or renaming other users' entries.
+
+# Common example: /tmp
+
+# Example permission:
+# drwxrwxrwt
+
+
+# 15. SPECIAL PERMISSION NUMBERS
+
+# 4755 = SUID + 755
+# 2755 = SGID + 755
+# 1777 = Sticky Bit + 777
+
+# Example:
+chmod 4755 program
+chmod 2755 sharedfolder
+chmod 1777 sharedfolder
+
+# First digit = Special permission
+# Second digit = Owner
+# Third digit = Group
+# Fourth digit = Others
+
+
+# 16. COPYING PERMISSIONS FROM ANOTHER FILE
+
+# Set permissions of file2 same as file1
+chmod --reference=file1 file2
+
+# GNU/Linux option:
+# --reference copies the permission mode from another file.
+#
+# This option is not available in the default macOS/BSD
+# chmod. Use stat and chmod manually there.
+
+
+# 17. CHECKING PERMISSIONS
+
+# Display permissions
+ls -l sample.txt
+
+# Display detailed information
+stat sample.txt
+
+# GNU/Linux: show numeric permissions
+stat -c "%a %n" sample.txt
+
+# macOS: show numeric permissions
+stat -f "%Lp %N" sample.txt
+
+# Display directory permissions
+ls -ld myfolder
+
+# Display permissions recursively
+ls -lR myfolder
+
+
+# 18. CHMOD WITH FIND
+
+# Find all shell scripts and make them executable
+find . -type f -name "*.sh" -exec chmod u+x {} +
+
+# Give all Python files read/write permission to owner
+find . -type f -name "*.py" -exec chmod 644 {} +
+
+# Set directories to 755
+find . -type d -exec chmod 755 {} +
+
+# Set regular files to 644
+find . -type f -exec chmod 644 {} +
+
+# Find files with exactly 777 permissions
+find . -type f -perm 777
+
+# Find files with SUID permission
+find . -type f -perm -4000
+
+
+# 19. CHMOD AND UMASK
+
+# Display current umask
+umask
+
+# Example:
+umask 022
+
+# Typical default permissions:
+# Files       = 666
+# Directories = 777
+
+# Result with umask 022:
+# Files       = 644
+# Directories = 755
+
+# Set restrictive umask
+umask 077
+
+# Result:
+# Files       = 600
+# Directories = 700
+
+# Important:
+# umask affects permissions when new files/directories
+# are created. chmod changes existing permissions.
+
+
+# 20. COMMON CHMOD ERRORS
+
+# Error: Operation not permitted
+# Possible reason:
+# You do not own the file or lack sufficient privileges.
+
+# Solution on Linux:
+sudo chmod 644 protected.txt
+
+# Error: No such file or directory
+# Possible reason:
+# Incorrect file path or filename.
+
+# Solution:
+ls
+pwd
+
+# Error: Permission denied
+# Possible reason:
+# You do not have the required access permissions.
+
+# Check:
+ls -l filename
+
+
+# 21. PRACTICAL EXERCISES
+
+# Create a practice directory
+mkdir chmod_practice
+
+# Enter the directory
+cd chmod_practice
+
+# Create files
+touch file1.txt file2.txt script.sh
+
+# Check initial permissions
+ls -l
+
+# Exercise 1:
+# Set file1.txt to 644
+chmod 644 file1.txt
+
+# Exercise 2:
+# Set file2.txt to 600
+chmod 600 file2.txt
+
+# Exercise 3:
+# Give script.sh execute permission
+chmod u+x script.sh
+
+# Exercise 4:
+# Remove write permission from others
+chmod o-w file1.txt
+
+# Exercise 5:
+# Give group read and write permission
+chmod g+rw file2.txt
+
+# Exercise 6:
+# Set exact permissions
+chmod u=rwx,g=rx,o= script.sh
+
+# Exercise 7:
+# Create a directory
+mkdir private
+
+# Set directory permissions to 700
+chmod 700 private
+
+# Exercise 8:
+# Set directory permissions to 755
+chmod 755 private
+
+# Exercise 9:
+# Check permissions
+ls -l
+ls -ld private
+
+# Return to the parent directory
+cd ..
+
+# Remove the practice directory when finished
+rm -r chmod_practice
+
+
+# ============================================================
+# QUICK REVISION CHEAT SHEET
+# ============================================================
+
+# chmod 755 file       Set permissions to rwxr-xr-x
+# chmod 644 file       Set permissions to rw-r--r--
+# chmod 700 file       Give owner full permissions only
+# chmod 600 file       Give owner read/write only
+# chmod 777 file       Give everyone full permissions
+
+# chmod u+x file      Add execute permission to owner
+# chmod g+w file      Add write permission to group
+# chmod o-r file      Remove read permission from others
+# chmod a+x file      Add execute permission to everyone
+
+# chmod u=rw file     Set owner permissions exactly
+# chmod g=r file      Set group to read-only
+# chmod o= file       Remove all permissions from others
+
+# chmod -R 755 dir    Change permissions recursively
+
+# chmod u+s file      Set SUID
+# chmod g+s dir       Set SGID
+# chmod +t dir        Set Sticky Bit
+
+# ============================================================
+# END OF CHMOD NOTES
+# ============================================================
